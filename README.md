@@ -1,4 +1,4 @@
 CQRS
 ---
-make init
-make test
+- make init
+- make test
