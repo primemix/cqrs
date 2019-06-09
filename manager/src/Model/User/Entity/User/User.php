@@ -68,4 +68,9 @@ class User
     {
         return $this->passwordHash;
     }
+
+    public function getConfirmToken(): ?string
+    {
+        return $this->confirmToken;
+    }
 }
