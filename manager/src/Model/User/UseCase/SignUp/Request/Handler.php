@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\User\UseCase\SignUp\Request;
@@ -13,8 +12,6 @@ use App\Model\User\Entity\User\UserRepository;
 use App\Model\User\Service\SignUpConfirmTokenizer;
 use App\Model\User\Service\SignUpConfirmTokenSender;
 use App\Model\User\Service\PasswordHasher;
-use DateTimeImmutable;
-use DomainException;
 
 class Handler
 {
@@ -23,6 +20,7 @@ class Handler
     private $tokenizer;
     private $sender;
     private $flusher;
+
     public function __construct(
         UserRepository $users,
         PasswordHasher $hasher,
@@ -37,15 +35,16 @@ class Handler
         $this->sender = $sender;
         $this->flusher = $flusher;
     }
+
     public function handle(Command $command): void
     {
         $email = new Email($command->email);
         if ($this->users->hasByEmail($email)) {
-            throw new DomainException('User already exists.');
+            throw new \DomainException('User already exists.');
         }
         $user = User::signUpByEmail(
             Id::next(),
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
             new Name(
                 $command->firstName,
                 $command->lastName
